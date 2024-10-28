@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jose Academy - Formación Policía Portuaria</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #1d4ed8;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(30, 58, 138, 0.95), rgba(29, 78, 216, 0.9)), url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+       
+    
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-2">🤖</span>
+                    <span class="font-bold text-xl text-gray-800">Jose Academy</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="nav-link text-gray-600 hover:text-blue-600">Inicio</a>
+                    <a href="#quienes-somos" class="nav-link text-gray-600 hover:text-blue-600">Quiénes Somos</a>
+                    <a href="#servicios" class="nav-link text-gray-600 hover:text-blue-600">Servicios</a>
+                    <a href="#tecnologia" class="nav-link text-gray-600 hover:text-blue-600">Tecnología</a>
+                    <a href="#zonas" class="nav-link text-gray-600 hover:text-blue-600">Test de Zonas</a>
+                    <a href="#contacto" class="nav-link text-gray-600 hover:text-blue-600">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+   
+<!-- Hero Section -->
+<section id="inicio" class="min-h-screen flex items-center justify-center relative bg-gradient-to-r from-blue-900 to-blue-700 pt-16">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="text-white text-center md:text-left">
+                <h1 class="text-5xl font-bold mb-4">Formación Profesional de Excelencia</h1>
+                <p class="text-xl mb-8">Especialistas en formación para accesos a la Policía Portuaria</p>
+                <button class="bg-white text-blue-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-100 transition duration-300">
+                    Comenzar Ahora
+                </button>
+            </div>
+            <div class="hidden md:flex justify-center items-center">
+                <img src="img/Officer.png" alt="Officer" class="max-h-[500px] w-auto object-contain">
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Quiénes Somos -->
+    <section id="quienes-somos" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Quiénes Somos</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Tu Partner en Formación Profesional</h3>
+                    <p class="text-gray-600 mb-6">
+                        En Jose Academy, nos dedicamos a proporcionar formación de alta calidad para profesionales que buscan acceder a la Policía Portuaria. Con años de experiencia en el sector, garantizamos una preparación completa y actualizada.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-robot text-blue-600 mr-2"></i>
+                            Asistente virtual IA 24/7 para resolver dudas
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-chart-line text-blue-600 mr-2"></i>
+                            Análisis predictivo para optimizar tu aprendizaje
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-graduation-cap text-blue-600 mr-2"></i>
+                            Formación especializada y certificada
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <img src="img/Class.webp" alt="Formación Profesional" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card bg-white rounded-lg shadow-lg p-6">
+                    <i class="fas fa-graduation-cap text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Formación Especializada</h3>
+                    <p class="text-gray-600">Cursos diseñados específicamente para las necesidades de cada Puerto.</p>
+                </div>
+                <div class="card bg-white rounded-lg shadow-lg p-6">
+                    <i class="fas fa-certificate text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Certificaciones</h3>
+                    <p class="text-gray-600">Obtén las certificaciones necesarias para acceder a la Policía Portuaria.</p>
+                </div>
+                <div class="card bg-white rounded-lg shadow-lg p-6">
+                    <i class="fas fa-users text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-4">Asesoramiento</h3>
+                    <p class="text-gray-600">Orientación personalizada para elegir la formación más adecuada a tus necesidades.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnología -->
+    <section id="tecnologia" class="py-20 bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Innovación Tecnológica</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold mb-4">Formación Potenciada por IA</h3>
+                    <p class="mb-6">
+                        En Jose Academy integramos tecnologías de Inteligencia Artificial para ofrecerte una experiencia de aprendizaje personalizada y efectiva, centrada en tu éxito.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <i class="fas fa-robot text-4xl mb-2"></i>
+                            <h4 class="font-semibold">Asistente IA</h4>
+                        </div>
+                        <div class="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <i class="fas fa-chart-line text-4xl mb-2"></i>
+                            <h4 class="font-semibold">Análisis Predictivo</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold mb-4">Beneficios para tu aprendizaje</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-300 mr-2"></i>
+                            Resuelve tus dudas en cualquier momento con nuestro asistente IA
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-300 mr-2"></i>
+                            Recibe recomendaciones personalizadas basadas en tu progreso
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-300 mr-2"></i>
+                            Identifica y refuerza tus áreas de mejora
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-300 mr-2"></i>
+                            Optimiza tu tiempo de estudio con rutas de aprendizaje adaptativas
+                        </li>
+                    </ul>
+                    <button class="mt-6 bg-white text-blue-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-100 transition duration-300">
+                        Descubre Cómo te Ayudamos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zonas de Test -->
+    <section id="zonas" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Zonas de Test</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <h3 class="text-xl font-semibold p-6 bg-blue-900 text-white text-center">Selecciona Zona para el test</h3>
+                    <div class="p-6 space-y-4">
+                        <a href="Zonas/Valencia/Index.html" class="btn-primary block text-center text-white py-3 px-6 rounded-lg">Puerto de Valencia</a>
+                        <a href="Zonas/Sagunto/Index.html" class="btn-primary block text-center text-white py-3 px-6 rounded-lg">Puerto de Sagunto</a>
+                        <a href="Zonas/Gandia/Index.html" class="btn-primary block text-center text-white py-3 px-6 rounded-lg">Puerto de Gandía</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <h3 class="text-xl font-semibold p-6 bg-blue-900 text-white text-center">Selecciona Acceso para el test</h3>
+                    <div class="p-6">
+                        <a href="Accesos/Valencia/Index.html" class="btn-primary block text-center text-white py-3 px-6 rounded-lg">Puerto de Valencia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Contacto</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Información de Contacto</h3>
+                        <div class="space-y-4">
+                            <p class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>
+                                Valencia, España
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-phone text-blue-600 mr-2"></i>
+                                +34 XXX XXX XXX
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-envelope text-blue-600 mr-2"></i>
+                                info@joseacademy.com
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-300">
+                            Solicitar Información
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Jose Academy</h4>
+                    <p class="text-gray-400">Formación profesional de calidad para a la Policía Portuaria.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#inicio" class="hover:text-white">Inicio</a></li>
+                        <li><a href="#quienes-somos" class="hover:text-white">Quiénes Somos</a></li>
+                        <li><a href="#servicios" class="hover:text-white">Servicios</a></li>
+                        <li><a href="#zonas" class="hover:text-white">Zonas</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2024 Jose Academy. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
