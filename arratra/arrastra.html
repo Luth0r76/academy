@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="es">
+    <title>Examen de Certificación Portuaria</title>
+    <style>
+        /* Reseteo básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos base */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f2f5;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1e40af;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .question {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+        }
+
+        h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        /* Estilos generales para opciones */
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .option {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            white-space: nowrap;
+            min-height: 36px;
+        }
+
+        .option:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .option.used {
+            opacity: 0.5;
+            background: #e2e8f0;
+            cursor: not-allowed;
+        }
+
+        .option.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Estilos para las zonas de destino */
+        .dropzone {
+            display: inline-flex;
+            align-items: center;
+            min-width: 180px;
+            width: auto;
+            height: auto;
+            min-height: 36px;
+            border-bottom: 2px solid #3b82f6;
+            margin: 0 5px;
+            background: #f8fafc;
+            padding: 2px 8px;
+            transition: all 0.2s ease;
+        }
+
+        .dropzone.active {
+            background: #dbeafe;
+            border-bottom-color: #2563eb;
+        }
+
+        .dropzone .option {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            margin: 0;
+            width: 100%;
+        }
+
+        /* Estilos específicos para la pregunta del puerto */
+        .puerto-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .puerto-image {
+            width: 100%;
+            max-height: 300px;
+            overflow: hidden;
+        }
+
+        .puerto-image img {
+            width: 30%;
+            height: 80%;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        /* Contenedor especial para las opciones del puerto */
+        .puerto-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin: 20px 0;
+        }
+
+        .puerto-options .option {
+            width: auto;
+            flex: 0 0 auto;
+            font-size: 14px;
+            padding: 8px 16px;
+            margin: 0;
+        }
+
+        .darsenas-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .darsena {
+            flex: 1;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .darsena h4 {
+            color: #1e40af;
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .dropzone-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .dropzone-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dropzone-number {
+            font-weight: bold;
+            min-width: 25px;
+            color: #1e40af;
+            font-size: 16px;
+        }
+
+        /* Estilos para los botones */
+        .buttons-container {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+
+        .check-button {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .check-button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .reset-button {
+            background: #64748b;
+            color: white;
+        }
+
+        .reset-button:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        /* Estilos para el resultado */
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .result.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detalles-respuestas {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detalle {
+    padding: 10px;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+.detalle.correcta {
+    border-left: 4px solid #22c55e;
+}
+
+.detalle.incorrecta {
+    border-left: 4px solid #ef4444;
+}
+
+.respuesta {
+    font-weight: 500;
+}
+
+span.correcta {
+    color: #22c55e;
+    font-weight: 500;
+}
+
+        /* Media queries para responsividad */
+        @media (max-width: 768px) {
+            .darsenas-container {
+                flex-direction: column;
+            }
+
+            .puerto-options .option {
+                width: calc(50% - 10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Examen de Certificación Portuaria</h1>
+        <div id="questions"></div>
+        <div class="buttons-container">
+            <button class="check-button" onclick="verificarRespuestas()">Verificar Respuestas</button>
+            <button class="reset-button" onclick="reiniciarExamen()">Reiniciar</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Configuración de las preguntas
+        const preguntas = [
+            {
+                id: 'q1',
+                titulo: '1. Certificado de arrumazón',
+                texto: 'Documento que emite el ________ o ________ o vehículo con ________, acreditando que las mismas fueron arrumadas cuando el contenedor se encontraba limpio y seco, que son ________ entre sí, que los bultos se encontraban en buen estado aparente y que han sido adecuadamente arrumadas y trincadas.',
+                opciones: ['mercancías peligrosas', 'consignatario', 'expedidor', 'cargador', 'exportador', 'mercancías compatibles', 'mercancías miscibles', 'mercancías fungibles'],
+                respuestasCorrectas: ['expedidor', 'cargador', 'mercancías peligrosas', 'mercancías compatibles'],
+                puntosPorRespuesta: 0.33
+            },
+            {
+                id: 'q2',
+                titulo: '2. Instalación portuaria',
+                texto: 'Entenderemos por "Instalación portuaria", ________ donde se realiza la ________. Incluye, según sea necesario, zonas como los ________, ________ de espera y accesos desde el ________.',
+                opciones: ['fondeaderos', 'atracaderos', 'intercambio de mercancías', 'puerto', 'lugar', 'ubicación', 'mar', 'muelle', 'interfaz buque-puerto'],
+                respuestasCorrectas: ['lugar', 'interfaz buque-puerto', 'fondeaderos', 'atracaderos', 'mar'],
+                puntosPorRespuesta: 0.20
+            },
+            {
+                id: 'q3',
+                tipo: 'puerto',
+                titulo: '3. Defina las partes del puerto de Sagunto reseñadas en el PAU',
+                darsenas: {
+                    darsena1: {
+                        nombre: 'Dársena 1',
+                        espacios: 4,
+                        respuestasCorrectas: ['Zona pesquera y dique levante', 'Muelle Norte 1', 'Muelle Centro 1', 'Muelle Sur 1']
+                    },
+                    darsena2: {
+                        nombre: 'Dársena 2',
+                        espacios: 5,
+                        respuestasCorrectas: ['Muelle Noreste', 'Muelle Norte 2', 'Muelle Centro 2', 'Muelle Sur 2', 'Instalación de SAGGAS']
+                    }
+                },
+                opciones: [
+                    'Instalación de SAGGAS', 'Muelle Sur 1', 'Muelle Centro 1', 
+                    'Muelle Noreste', 'Zona pesquera y dique levante', 'Muelle Norte 1', 
+                    'Muelle Sur 2',  'Muelle Norte 2','Muelle Centro 2',
+                ],
+                puntosPorRespuesta: 0.33
+            },
+            {
+                id: 'q4',
+                titulo: '4. Procedimiento de operaciones náuticas Ship to Ship',
+                texto: 'El presente procedimiento de operación es aplicable a ________ con capacidades comprendidas entre ________ y ________ m3. Buques que excedan el rango especificado requerirán de una ________ para disponer del correspondiente permiso de entrada al puerto. El límite operacional para la realización de las ________ queda establecido a ________. Solo se podrán realizar las operaciones ________ en ________.',
+                opciones: ['buques gaseros', 'buques metaneros', 'verificación especial', 'autorización marítima', 'maniobras', 'atraques', 'desatraques', '15 nudos de viento real', '30 nudos de viento real', 'horas nocturnas', 'horas diurnas', 'paralelas', '500', '3000', '270.000', 'Ship to Ship', 'fase to fase'],
+                respuestasCorrectas: ['buques metaneros', '500', '270.000', 'verificación especial', 'maniobras', '15 nudos de viento real', 'Ship to Ship', 'horas diurnas'],
+                puntosPorRespuesta: 0.25
+            },
+            {
+                id: 'q5',
+                titulo: '5. Procedimiento de operaciones náuticas Ship to Ship (Continuación)',
+                texto: 'El muelle destinado a buques GNL será el ________. La entrada de buques ________ está limitada por estados de ________ o ________ correspondientes a alturas de ola significantes ________, en el punto de embarque ________. Las operaciones de carga deben ser interrumpidas cuando la ________ sea ________ millas náuticas. Con independencia de las condiciones climáticas reinantes en el momento de comenzar la operación, se utilizarán ________ tipo tractor cicloidal o azimutal de ________.',
+                opciones: ['Extremo del Contradique Sur', 'Final Contradique Norte', 'muelle centro 2', 'gaseros', 'metaneros', 'de los amarradores', 'del practico', 'visibilidad', 'cercanía', '2 remolcadores', '4 remolcadores', 'al menos 50 t', 'mínimo 35 t', 'mayor de 2.5', 'menor de 1.5', '2.0 m', '4.0 m', 'mar de fondo', 'de viento'],
+                respuestasCorrectas: ['Extremo del Contradique Sur', 'metaneros', 'mar de fondo', 'de viento', '2.0 m', 'del practico', 'visibilidad', 'menor de 1.5', '2 remolcadores', 'al menos 50 t'],
+                puntosPorRespuesta: 0.30
+            }
+        ];
+
+        // Función para crear preguntas normales
+        function crearPreguntaNormal(pregunta, index) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            
+            const titulo = document.createElement('h3');
+            titulo.textContent = pregunta.titulo;
+            questionDiv.appendChild(titulo);
+
+            const textoContainer = document.createElement('div');
+            pregunta.texto.split('________').forEach((parte, i) => {
+                textoContainer.appendChild(document.createTextNode(parte));
+                if (i < pregunta.respuestasCorrectas.length) {
+                    const dropzone = document.createElement('span');
+                    dropzone.className = 'dropzone';
+                    dropzone.setAttribute('data-question', index);
+                    dropzone.setAttribute('data-index', i);
+                    dropzone.addEventListener('dragover', handleDragOver);
+                    dropzone.addEventListener('drop', handleDrop);
+                    dropzone.addEventListener('dragenter', handleDragEnter);
+                    dropzone.addEventListener('dragleave', handleDragLeave);
+                    textoContainer.appendChild(dropzone);
+                }
+            });
+
+            questionDiv.appendChild(textoContainer);
+
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            pregunta.opciones.forEach(opcion => {
+                const optionElem = document.createElement('div');
+                optionElem.className = 'option';
+                optionElem.textContent = opcion;
+                optionElem.draggable = true;
+                optionElem.setAttribute('data-option', opcion);
+                optionElem.addEventListener('dragstart', handleDragStart);
+                optionElem.addEventListener('dragend', handleDragEnd);
+                optionsContainer.appendChild(optionElem);
+            });
+
+            questionDiv.appendChild(optionsContainer);
+            return questionDiv;
+        }
+
+        // Función para crear la pregunta del puerto
+        function crearPreguntaPuerto(pregunta) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            
+            const titulo = document.createElement('h3');
+            titulo.textContent = pregunta.titulo;
+            questionDiv.appendChild(titulo);
+
+            const puertoContainer = document.createElement('div');
+            puertoContainer.className = 'puerto-container';
+
+            // Imagen
+            const imagenDiv = document.createElement('div');
+            imagenDiv.className = 'puerto-image';
+            const img = document.createElement('img');
+            img.src = 'sagunto.png';
+            img.alt = 'Puerto de Sagunto';
+            imagenDiv.appendChild(img);
+            puertoContainer.appendChild(imagenDiv);
+
+            // Opciones para arrastrar
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'puerto-options';
+            pregunta.opciones.forEach(opcion => {
+                const optionElem = document.createElement('div');
+                optionElem.className = 'option';
+                optionElem.textContent = opcion;
+                optionElem.draggable = true;
+                optionElem.setAttribute('data-option', opcion);
+                optionElem.addEventListener('dragstart', handleDragStart);
+                optionElem.addEventListener('dragend', handleDragEnd);
+                optionsContainer.appendChild(optionElem);
+            });
+            puertoContainer.appendChild(optionsContainer);
+
+            // Dársenas
+            const darsenaContainer = document.createElement('div');
+            darsenaContainer.className = 'darsenas-container';
+
+            let numeroActual = 1;
+            Object.entries(pregunta.darsenas).forEach(([key, darsena]) => {
+                const darsenaDiv = document.createElement('div');
+                darsenaDiv.className = 'darsena';
+                
+                const titulo = document.createElement('h4');
+                titulo.textContent = darsena.nombre;
+                darsenaDiv.appendChild(titulo);
+
+                const dropzoneGroup = document.createElement('div');
+                dropzoneGroup.className = 'dropzone-group';
+
+                for (let i = 0; i < darsena.espacios; i++) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'dropzone-wrapper';
+
+                    const number = document.createElement('span');
+                    number.className = 'dropzone-number';
+                    number.textContent = numeroActual++;
+
+                    const dropzone = document.createElement('span');
+                    dropzone.className = 'dropzone';
+                    dropzone.setAttribute('data-question', key);
+                    dropzone.setAttribute('data-index', i);
+                    dropzone.addEventListener('dragover', handleDragOver);
+                    dropzone.addEventListener('drop', handleDrop);
+                    dropzone.addEventListener('dragenter', handleDragEnter);
+                    dropzone.addEventListener('dragleave', handleDragLeave);
+
+                    wrapper.appendChild(number);
+                    wrapper.appendChild(dropzone);
+                    dropzoneGroup.appendChild(wrapper);
+                }
+
+                darsenaDiv.appendChild(dropzoneGroup);
+                darsenaContainer.appendChild(darsenaDiv);
+            });
+
+            puertoContainer.appendChild(darsenaContainer);
+            questionDiv.appendChild(puertoContainer);
+            
+            return questionDiv;
+        }
+
+        // Funciones de drag and drop
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.getAttribute('data-option'));
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('dropzone')) {
+                e.target.classList.add('active');
+            }
+        }
+
+        function handleDragLeave(e) {
+            if (e.target.classList.contains('dropzone')) {
+                e.target.classList.remove('active');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropzone = e.target.closest('.dropzone');
+            if (!dropzone) return;
+            
+            dropzone.classList.remove('active');
+            const option = e.dataTransfer.getData('text/plain');
+            
+            // Gestionar opción previa
+            if (dropzone.firstChild) {
+                const oldOption = dropzone.firstChild.textContent;
+                const originalOption = document.querySelector(`[data-option="${oldOption}"].used`);
+                if (originalOption) {
+                    originalOption.classList.remove('used');
+                }
+            }
+            
+            // Marcar nueva opción
+            const originalOption = document.querySelector(`[data-option="${option}"]:not(.in-dropzone)`);
+            if (originalOption) {
+                originalOption.classList.add('used');
+            }
+            
+            // Crear nueva opción en el dropzone
+            dropzone.innerHTML = '';
+            const optionElem = document.createElement('div');
+            optionElem.className = 'option in-dropzone';
+            optionElem.textContent = option;
+            optionElem.draggable = true;
+            optionElem.setAttribute('data-option', option);
+            
+            optionElem.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', option);
+                const originalOption = document.querySelector(`[data-option="${option}"].used`);
+                if (originalOption) {
+                    originalOption.classList.remove('used');
+                }
+            });
+            
+            dropzone.appendChild(optionElem);
+        }
+
+        function verificarRespuestas() {
+    let puntosTotal = 0;
+    let correctas = 0;
+    let totalPreguntas = 0;
+    let detalles = [];
+
+    preguntas.forEach((pregunta, index) => {
+        if (pregunta.tipo === 'puerto') {
+            Object.entries(pregunta.darsenas).forEach(([key, darsena]) => {
+                const dropzones = document.querySelectorAll(`[data-question="${key}"]`);
+                dropzones.forEach((dropzone, i) => {
+                    totalPreguntas++;
+                    const respuesta = dropzone.textContent;
+                    const correcta = darsena.respuestasCorrectas[i];
+                    const esCorrecta = respuesta === correcta;
+                    
+                    if (esCorrecta) {
+                        correctas++;
+                        puntosTotal += pregunta.puntosPorRespuesta;
+                    }
+                    
+                    detalles.push({
+                        pregunta: pregunta.titulo,
+                        darsena: darsena.nombre,
+                        numero: i + 1,
+                        tuRespuesta: respuesta || 'sin respuesta',
+                        respuestaCorrecta: correcta,
+                        esCorrecta: esCorrecta
+                    });
+                });
+            });
+        } else {
+            const dropzones = document.querySelectorAll(`[data-question="${index}"]`);
+            dropzones.forEach((dropzone, i) => {
+                totalPreguntas++;
+                const respuesta = dropzone.textContent;
+                const correcta = pregunta.respuestasCorrectas[i];
+                const esCorrecta = respuesta === correcta;
+                
+                if (esCorrecta) {
+                    correctas++;
+                    puntosTotal += pregunta.puntosPorRespuesta;
+                }
+                
+                detalles.push({
+                    pregunta: pregunta.titulo,
+                    numero: i + 1,
+                    tuRespuesta: respuesta || 'sin respuesta',
+                    respuestaCorrecta: correcta,
+                    esCorrecta: esCorrecta
+                });
+            });
+        }
+    });
+
+    // Mostrar resultados detallados
+    const resultDiv = document.getElementById('result');
+    let resultHTML = `<h3>Resumen: ${correctas} de ${totalPreguntas} respuestas. Puntuación: ${puntosTotal.toFixed(2)} puntos</h3>`;
+    resultHTML += '<div class="detalles-respuestas">';
+    
+    detalles.forEach(detalle => {
+        resultHTML += `
+            <div class="detalle ${detalle.esCorrecta ? 'correcta' : 'incorrecta'}">
+                <strong>${detalle.pregunta}</strong>
+                ${detalle.darsena ? ` - ${detalle.darsena}` : ''}
+                <br>
+                Posición ${detalle.numero}:
+                Tu respuesta: <span class="respuesta">${detalle.tuRespuesta}</span>
+                ${!detalle.esCorrecta ? `<br>Respuesta correcta: <span class="correcta">${detalle.respuestaCorrecta}</span>` : ''}
+            </div>
+        `;
+    });
+    resultHTML += '</div>';
+    
+    resultDiv.innerHTML = resultHTML;
+    resultDiv.className = `result ${puntosTotal > 0 ? 'success' : 'error'}`;
+}
+
+        // Reinicio del examen
+        function reiniciarExamen() {
+            document.querySelectorAll('.dropzone').forEach(dropzone => {
+                dropzone.innerHTML = '';
+            });
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('used');
+            });
+            document.getElementById('result').innerHTML = '';
+        }
+
+        // Función principal para crear el examen
+       function crearExamen() {
+           const container = document.getElementById('questions');
+           container.innerHTML = '';
+
+           preguntas.forEach((pregunta, index) => {
+               if (pregunta.tipo === 'puerto') {
+                   container.appendChild(crearPreguntaPuerto(pregunta));
+               } else {
+                   container.appendChild(crearPreguntaNormal(pregunta, index));
+               }
+           });
+       }
+
+       // Inicializar el examen cuando se carga la página
+       window.onload = function() {
+           crearExamen();
+           
+           // Prevenir el comportamiento por defecto del navegador para drag and drop
+           window.addEventListener('dragover', function(e) {
+               e.preventDefault();
+           });
+           
+           window.addEventListener('drop', function(e) {
+               e.preventDefault();
+           });
+       };
+   </script>
+</body>
+</html>
